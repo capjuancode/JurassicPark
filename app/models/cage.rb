@@ -1,10 +1,18 @@
 class Cage < ApplicationRecord
+  include Searchable
+
   has_many :dinos
   has_many :species, through: :dinos
 
   validate :no_power_down
 
   enum status: { 'down': 0, 'active': 1 }
+
+  # Searchable
+  # Cage.search({ name: 'Tyra', status: 'active', diet: 'carnivore' })
+  scope :by_name, ->(name) { where('lower(cages.name) LIKE ?', "%#{name&.strip&.downcase}%") }
+  scope :by_status, ->(status) { where(status: status) }
+  scope :by_diet, ->(diet) { left_joins(:species).where(species: { diet: diet }).uniq }
 
   #
   # Check if there is dinos in the cage before its shutdown
@@ -44,5 +52,9 @@ class Cage < ApplicationRecord
     return type.first if type.count == 1
 
     raise "Wrong Species type, Check if Dino's are still Alive"
+  end
+
+  def full?
+    dinos.count >= max_capacity
   end
 end

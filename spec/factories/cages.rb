@@ -1,7 +1,7 @@
 FactoryBot.define do
   factory :cage do
     name { 'MyString' }
-    max_capacity { 10 }
+    max_capacity { 3 }
     status { :active }
 
     trait :with_dino do
