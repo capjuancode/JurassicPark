@@ -15,18 +15,18 @@ end
 end
 
 Species.where(diet: :carnivore).each do |species|
-  cage = Cage.create(name: species.name.pluralize, max_capacity: 2)
-  cage << Dino.create(name: species.name.first(6), species: species)
+  cage = Cage.create(name: species.name.pluralize, max_capacity: 2, status: :active)
+  Dino.create(name: species.name.first(6), species: species, cage: cage)
 end
 
-cage = Cage.create(name: 'Herbivores', max_capacity: 20)
+cage = Cage.create(name: 'Herbivores', max_capacity: 20, status: :active)
 Species.where(diet: :herbivore).each do |species|
-  cage << Dino.create(name: species.name.first(6), species: species)
+  Dino.create(name: species.name.first(6), species: species, cage: cage)
 end
 
 velociraptor = Species.create(name: 'Velociraptor', diet: :carnivore)
-cage = Cage.create(name: velociraptor.name.pluralize, max_capacity: 5)
+cage = Cage.create(name: velociraptor.name.pluralize, max_capacity: 5, status: :active)
 
 %w[Delta Echo Charlie Blue].each do |name|
-  cage << Dino.create(name: name, species: velociraptor)
+  Dino.create(name: name, species: velociraptor, cage: cage)
 end
