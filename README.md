@@ -11,5 +11,5 @@
 
 ## Notes
 Everything has been tested locally with in the console, I did create test for…
-1. Cages request test.
+1. Cages request test. (Cages controller, Serializer, crud, search on index )
 1. Cages model Test (validation , search and intense methods)
