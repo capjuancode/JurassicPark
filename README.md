@@ -1,24 +1,14 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## Runing App
+1. bundle
+1. rails db:create
+1. rails db:migrate
+1. rails db:seed
 
-Things you may want to cover:
+## Testing
+1. bundle exec rspec
 
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+Everything has been tested locally with in the console, I did create test for…
+1. Cages request test.
+1. Cages model Test (validation , search and intense methods)
