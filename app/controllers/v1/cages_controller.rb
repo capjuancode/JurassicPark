@@ -4,7 +4,7 @@ module V1
 
     # GET /v1/cages
     def index
-      @cages = Cage.all
+      @cages = Cage.all.search(search_params)
 
       render json: @cages
     end
@@ -19,9 +19,9 @@ module V1
       @cage = Cage.new(cage_params)
 
       if @cage.save
-        render json: @cage, status: :created, location: @cage
+        render json: @cage, status: :created
       else
-        render json: @cage.errors, status: :unprocessable_entity
+        render json: @cage.errors.full_messages, status: :unprocessable_entity
       end
     end
 
@@ -30,7 +30,7 @@ module V1
       if @cage.update(cage_params)
         render json: @cage
       else
-        render json: @cage.errors, status: :unprocessable_entity
+        render json: @cage.errors.full_messages, status: :unprocessable_entity
       end
     end
 
@@ -40,14 +40,20 @@ module V1
     end
 
     private
-      # Use callbacks to share common setup or constraints between actions.
-      def set_cage
-        @cage = Cage.find(params[:id])
-      end
 
-      # Only allow a list of trusted parameters through.
-      def cage_params
-        params.fetch(:cage, {})
-      end
+    # Use callbacks to share common setup or constraints between actions.
+    def set_cage
+      @cage = Cage.find(params[:id])
+    end
+
+    # Only allow a list of trusted parameters through.
+    def cage_params
+      params.require(:cage)
+            .permit(:name, :max_capacity, :status)
+    end
+
+    def search_params
+      params.fetch(:search_params, {})
+    end
   end
 end

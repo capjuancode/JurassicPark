@@ -4,7 +4,7 @@ module V1
 
     # GET /v1/dinos
     def index
-      @dinos = Dino.all
+      @dinos = Dino.all.search(search_params)
 
       render json: @dinos
     end
@@ -21,7 +21,7 @@ module V1
       if @dino.save
         render json: @dino, status: :created, location: @dino
       else
-        render json: @dino.errors, status: :unprocessable_entity
+        render json: @dino.errors.full_messages, status: :unprocessable_entity
       end
     end
 
@@ -30,7 +30,7 @@ module V1
       if @dino.update(dino_params)
         render json: @dino
       else
-        render json: @dino.errors, status: :unprocessable_entity
+        render json: @dino.errors.full_messages, status: :unprocessable_entity
       end
     end
 
@@ -41,13 +41,17 @@ module V1
 
     private
       # Use callbacks to share common setup or constraints between actions.
-      def set_dino
-        @dino = Dino.find(params[:id])
-      end
+    def set_dino
+      @dino = Dino.find(params[:id])
+    end
 
-      # Only allow a list of trusted parameters through.
-      def dino_params
-        params.fetch(:dino, {})
-      end
+    # Only allow a list of trusted parameters through.
+    def dino_params
+      params.fetch(:dino, {})
+    end
+
+    def search_params
+      params.fetch(:search_params, {})
+    end
   end
 end

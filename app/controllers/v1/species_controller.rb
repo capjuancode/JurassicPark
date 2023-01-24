@@ -4,7 +4,7 @@ module V1
 
     # GET /v1/species
     def index
-      @species = Species.all
+      @species = Species.all.search(search_params)
 
       render json: @species
     end
@@ -21,7 +21,7 @@ module V1
       if @specy.save
         render json: @specy, status: :created, location: @specy
       else
-        render json: @specy.errors, status: :unprocessable_entity
+        render json: @specy.errors.full_messages, status: :unprocessable_entity
       end
     end
 
@@ -30,7 +30,7 @@ module V1
       if @specy.update(specy_params)
         render json: @specy
       else
-        render json: @specy.errors, status: :unprocessable_entity
+        render json: @specy.errors.full_messages, status: :unprocessable_entity
       end
     end
 
@@ -40,14 +40,19 @@ module V1
     end
 
     private
-      # Use callbacks to share common setup or constraints between actions.
-      def set_specy
-        @specy = Species.find(params[:id])
-      end
 
-      # Only allow a list of trusted parameters through.
-      def specy_params
-        params.fetch(:specy, {})
-      end
+    # Use callbacks to share common setup or constraints between actions.
+    def set_specy
+      @specy = Species.find(params[:id])
+    end
+
+    # Only allow a list of trusted parameters through.
+    def specy_params
+      params.fetch(:specy, {})
+    end
+
+    def search_params
+      params.fetch(:search_params, {})
+    end
   end
 end

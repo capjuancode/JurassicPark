@@ -5,6 +5,7 @@ class Cage < ApplicationRecord
   has_many :species, through: :dinos
 
   validate :no_power_down
+  validates :max_capacity, presence: true
 
   enum status: { 'down': 0, 'active': 1 }
 
