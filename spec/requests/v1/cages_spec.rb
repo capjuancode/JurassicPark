@@ -141,8 +141,9 @@ RSpec.describe "/v1/cages", type: :request do
 
   describe "DELETE /destroy" do
     it "destroys the requested v1_cage" do
+      cage = Cage.create! valid_attributes
       expect {
-        delete v1_cage_url(cage_with_dino), headers: valid_headers, as: :json
+        delete v1_cage_url(cage), headers: valid_headers, as: :json
       }.to change(Cage, :count).by(-1)
     end
   end

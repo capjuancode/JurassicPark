@@ -14,7 +14,7 @@ require 'rails_helper'
 
 RSpec.describe "/v1/dinos", type: :request do
   # This should return the minimal set of attributes required to create a valid
-  # V1::Dino. As you add validations to V1::Dino, be sure to
+  # Dino. As you add validations to Dino, be sure to
   # adjust the attributes here as well.
   let(:valid_attributes) {
     skip("Add a hash of attributes valid for your model")
@@ -26,7 +26,7 @@ RSpec.describe "/v1/dinos", type: :request do
 
   # This should return the minimal set of values that should be in the headers
   # in order to pass any filters (e.g. authentication) defined in
-  # V1::DinosController, or in your router and rack
+  # DinosController, or in your router and rack
   # middleware. Be sure to keep this updated too.
   let(:valid_headers) {
     {}
@@ -34,7 +34,7 @@ RSpec.describe "/v1/dinos", type: :request do
 
   describe "GET /index" do
     it "renders a successful response" do
-      V1::Dino.create! valid_attributes
+      Dino.create! valid_attributes
       get v1_dinos_url, headers: valid_headers, as: :json
       expect(response).to be_successful
     end
@@ -42,7 +42,7 @@ RSpec.describe "/v1/dinos", type: :request do
 
   describe "GET /show" do
     it "renders a successful response" do
-      dino = V1::Dino.create! valid_attributes
+      dino = Dino.create! valid_attributes
       get v1_dino_url(dino), as: :json
       expect(response).to be_successful
     end
@@ -50,32 +50,32 @@ RSpec.describe "/v1/dinos", type: :request do
 
   describe "POST /create" do
     context "with valid parameters" do
-      it "creates a new V1::Dino" do
+      it "creates a new Dino" do
         expect {
           post v1_dinos_url,
-               params: { v1_dino: valid_attributes }, headers: valid_headers, as: :json
-        }.to change(V1::Dino, :count).by(1)
+               params: { dino: valid_attributes }, headers: valid_headers, as: :json
+        }.to change(Dino, :count).by(1)
       end
 
       it "renders a JSON response with the new v1_dino" do
         post v1_dinos_url,
-             params: { v1_dino: valid_attributes }, headers: valid_headers, as: :json
+             params: { dino: valid_attributes }, headers: valid_headers, as: :json
         expect(response).to have_http_status(:created)
         expect(response.content_type).to match(a_string_including("application/json"))
       end
     end
 
     context "with invalid parameters" do
-      it "does not create a new V1::Dino" do
+      it "does not create a new Dino" do
         expect {
           post v1_dinos_url,
-               params: { v1_dino: invalid_attributes }, as: :json
-        }.to change(V1::Dino, :count).by(0)
+               params: { dino: invalid_attributes }, as: :json
+        }.to change(Dino, :count).by(0)
       end
 
       it "renders a JSON response with errors for the new v1_dino" do
         post v1_dinos_url,
-             params: { v1_dino: invalid_attributes }, headers: valid_headers, as: :json
+             params: { dino: invalid_attributes }, headers: valid_headers, as: :json
         expect(response).to have_http_status(:unprocessable_entity)
         expect(response.content_type).to match(a_string_including("application/json"))
       end
@@ -89,17 +89,17 @@ RSpec.describe "/v1/dinos", type: :request do
       }
 
       it "updates the requested v1_dino" do
-        dino = V1::Dino.create! valid_attributes
+        dino = Dino.create! valid_attributes
         patch v1_dino_url(dino),
-              params: { v1_dino: new_attributes }, headers: valid_headers, as: :json
+              params: { dino: new_attributes }, headers: valid_headers, as: :json
         dino.reload
         skip("Add assertions for updated state")
       end
 
       it "renders a JSON response with the v1_dino" do
-        dino = V1::Dino.create! valid_attributes
+        dino = Dino.create! valid_attributes
         patch v1_dino_url(dino),
-              params: { v1_dino: new_attributes }, headers: valid_headers, as: :json
+              params: { dino: new_attributes }, headers: valid_headers, as: :json
         expect(response).to have_http_status(:ok)
         expect(response.content_type).to match(a_string_including("application/json"))
       end
@@ -107,9 +107,9 @@ RSpec.describe "/v1/dinos", type: :request do
 
     context "with invalid parameters" do
       it "renders a JSON response with errors for the v1_dino" do
-        dino = V1::Dino.create! valid_attributes
+        dino = Dino.create! valid_attributes
         patch v1_dino_url(dino),
-              params: { v1_dino: invalid_attributes }, headers: valid_headers, as: :json
+              params: { dino: invalid_attributes }, headers: valid_headers, as: :json
         expect(response).to have_http_status(:unprocessable_entity)
         expect(response.content_type).to match(a_string_including("application/json"))
       end
@@ -118,10 +118,10 @@ RSpec.describe "/v1/dinos", type: :request do
 
   describe "DELETE /destroy" do
     it "destroys the requested v1_dino" do
-      dino = V1::Dino.create! valid_attributes
+      dino = Dino.create! valid_attributes
       expect {
         delete v1_dino_url(dino), headers: valid_headers, as: :json
-      }.to change(V1::Dino, :count).by(-1)
+      }.to change(Dino, :count).by(-1)
     end
   end
 end
